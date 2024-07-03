@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from geopy.geocoders import Nominatim
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -30,7 +31,7 @@ def hello():
     location = weatherData['location']['name']
 
     greeting = f'Hello, {visitor_name}!, the temperature is {temperature} degrees Celcius in {location}'
-    return jsonify({'client_ip': ip, 'location': location, 'greeting': greeting}, sort_keys=False)
+    return json.dumps({'client_ip': ip, 'location': location, 'greeting': greeting}, sort_keys=False)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
