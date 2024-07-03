@@ -5,9 +5,6 @@ import requests
 app = Flask(__name__)
 
 
-API_KEY = "6ed1d1b943ab46b9804145041240207"
-IP_KEY = '23e70ad74b374925ac6e18e363d68a08'
-
 def getUserLocation():
     try:
         if request.headers.getlist("X-Forwarded-For"):
@@ -33,7 +30,7 @@ def hello():
     location = weatherData['location']['name']
 
     greeting = f'Hello, {visitor_name}!, the temperature is {temperature} degrees Celcius in {location}'
-    return jsonify({'client_ip': ip, 'location': location, 'greeting': greeting})
+    return jsonify({'client_ip': ip, 'location': location, 'greeting': greeting}, sort_keys=False)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
