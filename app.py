@@ -10,17 +10,20 @@ IP_KEY = '23e70ad74b374925ac6e18e363d68a08'
 
 def getUserLocation():
     try:
-        response = requests.get(f'https://api.ipify.org?format=json')
-        return response.json()
+        if request.headers.getlist("X-Forwarded-For"):
+            user_ip = request.headers.getlist("X-Forwarded-For")[0]
+        else:
+            user_ip = request.remote_addr
+        return user_ip
     except:
         print("Error: Unable to detect your location.")
         return None
 
-@app.route('/api/hello/<name>', methods=['GET'])
-def hello(name):
-    visitor_name = name
+@app.route('/api/hello', methods=['GET'])
+def hello():
+    visitor_name = request.args.get('visitor_name', 'Guest')
     clientIp = getUserLocation()
-    ip = clientIp['ip']
+    ip = clientIp
     if(ip):
         response = requests.get(f"http://api.weatherapi.com/v1/current.json?key={API_KEY}&q={ip}")
     else:
