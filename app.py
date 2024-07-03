@@ -9,10 +9,10 @@ app = Flask(__name__)
 def getUserLocation():
     try:
         if request.headers.getlist("X-Forwarded-For"):
-            user_ip = request.headers.getlist("X-Forwarded-For")[0]
+            ip = request.headers.getlist("X-Forwarded-For")[0]
         else:
-            user_ip = request.remote_addr
-        return user_ip
+            ip = request.remote_addr
+        return ip
     except:
         print("Error: Unable to detect your location.")
         return None
